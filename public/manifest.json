@@ -1,0 +1,16 @@
+{
+  "name": "Initiative",
+  "version": "1.0.0",
+  "manifest_version": 1,
+  "author": "Owlbear Rodeo",
+  "homepage_url": "https://owlbear.app",
+  "icon": "/logo.png",
+  "description": "A simple initiative tracker extension.",
+  "action": {
+    "title": "Initiative",
+    "icon": "/icon.svg",
+    "popover": "/",
+    "height": 300,
+    "width": 250
+  }
+}
