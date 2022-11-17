@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 
 import SkipNextRounded from "@mui/icons-material/SkipNextRounded";
 
-import OBR from "@owlbear-rodeo/sdk";
+import OBR, { Item } from "@owlbear-rodeo/sdk";
 
 import { InitiativeItem } from "./InitiativeItem";
 
@@ -22,25 +22,26 @@ import { getPluginId } from "./getPluginId";
 function App() {
   const [initiativeItems, setInitiativeItems] = useState<InitiativeItem[]>([]);
 
-  useEffect(
-    () =>
-      OBR.scene.items.onChange((items) => {
-        const initiativeItems: InitiativeItem[] = [];
-        for (const item of items) {
-          const metadata = item.metadata[getPluginId("metadata")];
-          if (metadata !== undefined) {
-            initiativeItems.push({
-              id: item.id,
-              count: metadata.count,
-              name: item.name,
-              active: metadata.active,
-            });
-          }
+  useEffect(() => {
+    const handleItemsChange = (items: Item[]) => {
+      const initiativeItems: InitiativeItem[] = [];
+      for (const item of items) {
+        const metadata = item.metadata[getPluginId("metadata")];
+        if (metadata !== undefined) {
+          initiativeItems.push({
+            id: item.id,
+            count: metadata.count,
+            name: item.name,
+            active: metadata.active,
+          });
         }
-        setInitiativeItems(initiativeItems);
-      }),
-    []
-  );
+      }
+      setInitiativeItems(initiativeItems);
+    };
+
+    OBR.scene.items.getItems(() => true).then(handleItemsChange);
+    return OBR.scene.items.onChange(handleItemsChange);
+  }, []);
 
   useEffect(() => {
     OBR.contextMenu.create({
