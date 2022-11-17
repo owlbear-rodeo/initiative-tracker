@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 
 import SkipNextRounded from "@mui/icons-material/SkipNextRounded";
 
-import OBR, { Item } from "@owlbear-rodeo/sdk";
+import OBR, { isImage, Item } from "@owlbear-rodeo/sdk";
 
 import { InitiativeItem } from "./InitiativeItem";
 
@@ -26,14 +26,16 @@ function App() {
     const handleItemsChange = (items: Item[]) => {
       const initiativeItems: InitiativeItem[] = [];
       for (const item of items) {
-        const metadata = item.metadata[getPluginId("metadata")];
-        if (metadata !== undefined) {
-          initiativeItems.push({
-            id: item.id,
-            count: metadata.count,
-            name: item.name,
-            active: metadata.active,
-          });
+        if (isImage(item)) {
+          const metadata = item.metadata[getPluginId("metadata")];
+          if (metadata !== undefined) {
+            initiativeItems.push({
+              id: item.id,
+              count: metadata.count,
+              name: item.text.plainText || item.name,
+              active: metadata.active,
+            });
+          }
         }
       }
       setInitiativeItems(initiativeItems);
