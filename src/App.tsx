@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
@@ -6,6 +6,7 @@ import List from "@mui/material/List";
 import CardHeader from "@mui/material/CardHeader";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 import SkipNextRounded from "@mui/icons-material/SkipNextRounded";
 
@@ -154,6 +155,29 @@ function App() {
     });
   }
 
+  const listRef = useRef<HTMLUListElement>(null);
+  useEffect(() => {
+    if (listRef.current && ResizeObserver) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        if (entries.length > 0) {
+          const entry = entries[0];
+          // Get the height of the border box
+          // In the future you can use `entry.borderBoxSize`
+          // however as of this time the property isn't widely supported (iOS)
+          const borderHeight = entry.contentRect.bottom + entry.contentRect.top;
+          // Set a minimum height of 64px
+          const listHeight = Math.max(borderHeight, 64);
+          // Set the action height to the list height + the card header height + the divider
+          OBR.action.setHeight(listHeight + 64 + 1);
+        }
+      });
+      resizeObserver.observe(listRef.current);
+      return () => {
+        resizeObserver.disconnect();
+      };
+    }
+  }, []);
+
   return (
     <Stack height="100vh">
       <CardHeader
@@ -180,19 +204,21 @@ function App() {
           Select a character to start initiative
         </Typography>
       )}
-      <List sx={{ overflowY: "auto" }}>
-        {initiativeItems
-          .sort((a, b) => parseFloat(b.count) - parseFloat(a.count))
-          .map((initiative) => (
-            <InitiativeListItem
-              key={initiative.id}
-              initiative={initiative}
-              onCountChange={(newCount) => {
-                handleInitiativeCountChange(initiative.id, newCount);
-              }}
-            />
-          ))}
-      </List>
+      <Box sx={{ overflowY: "auto" }}>
+        <List ref={listRef}>
+          {initiativeItems
+            .sort((a, b) => parseFloat(b.count) - parseFloat(a.count))
+            .map((initiative) => (
+              <InitiativeListItem
+                key={initiative.id}
+                initiative={initiative}
+                onCountChange={(newCount) => {
+                  handleInitiativeCountChange(initiative.id, newCount);
+                }}
+              />
+            ))}
+        </List>
+      </Box>
     </Stack>
   );
 }
