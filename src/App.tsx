@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import CardHeader from "@mui/material/CardHeader";
@@ -152,7 +152,7 @@ function App() {
   }
 
   return (
-    <Box>
+    <Stack height="100vh">
       <CardHeader
         title="Initiative"
         action={
@@ -177,7 +177,7 @@ function App() {
           Select a character to start initiative
         </Typography>
       )}
-      <List>
+      <List sx={{ overflowY: "auto" }}>
         {initiativeItems
           .sort((a, b) => parseFloat(b.count) - parseFloat(a.count))
           .map((initiative) => (
@@ -190,7 +190,7 @@ function App() {
             />
           ))}
       </List>
-    </Box>
+    </Stack>
   );
 }
 
