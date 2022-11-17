@@ -10,7 +10,7 @@
     "title": "Initiative Tracker",
     "icon": "/icon.svg",
     "popover": "/",
-    "height": 400,
+    "height": 350,
     "width": 250
   }
 }
