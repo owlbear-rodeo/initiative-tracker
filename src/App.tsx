@@ -59,7 +59,6 @@ function App() {
               { key: "layer", value: "CHARACTER" },
               { key: ["metadata", getPluginId("metadata")], value: undefined },
             ],
-            roles: ["GM"],
           },
         },
         {
@@ -71,7 +70,6 @@ function App() {
               { key: "type", value: "IMAGE" },
               { key: "layer", value: "CHARACTER" },
             ],
-            roles: ["GM"],
           },
         },
       ],
