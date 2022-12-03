@@ -19,7 +19,7 @@ function InitiativeListItem({
       secondaryAction={
         <Input
           disableUnderline
-          sx={{ width: 25 }}
+          sx={{ width: 48 }}
           inputProps={{
             sx: {
               textAlign: "right",
@@ -34,6 +34,9 @@ function InitiativeListItem({
       }
       divider
       selected={initiative.active}
+      sx={{
+        pr: 64,
+      }}
     >
       <ListItemText primary={initiative.name} />
     </ListItem>
