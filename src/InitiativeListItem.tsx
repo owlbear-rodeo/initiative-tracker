@@ -35,7 +35,7 @@ function InitiativeListItem({
       divider
       selected={initiative.active}
       sx={{
-        pr: 64,
+        pr: "64px",
       }}
     >
       <ListItemText primary={initiative.name} />
