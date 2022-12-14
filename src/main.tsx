@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 
+import { App } from "./App";
 import "./index.css";
 import { theme } from "./theme";
 import { PluginGate } from "./PluginGate";

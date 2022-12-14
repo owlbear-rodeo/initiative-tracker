@@ -9,7 +9,7 @@ type InitiativeListItemProps = {
   onCountChange: (count: string) => void;
 };
 
-function InitiativeListItem({
+export function InitiativeListItem({
   initiative,
   onCountChange,
 }: InitiativeListItemProps) {
@@ -42,5 +42,3 @@ function InitiativeListItem({
     </ListItem>
   );
 }
-
-export default InitiativeListItem;
