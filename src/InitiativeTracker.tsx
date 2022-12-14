@@ -3,9 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
-import CardHeader from "@mui/material/CardHeader";
-import Divider from "@mui/material/Divider";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 import SkipNextRounded from "@mui/icons-material/SkipNextRounded";
