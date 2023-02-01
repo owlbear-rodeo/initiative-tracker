@@ -17,6 +17,18 @@ import removeIcon from "./assets/remove.svg";
 import { InitiativeListItem } from "./InitiativeListItem";
 import { getPluginId } from "./getPluginId";
 import { InitiativeHeader } from "./InitiativeHeader";
+import { isPlainObject } from "./isPlainObject";
+
+/** Check that the item metadata is in the correct format */
+function isMetadata(
+  metadata: unknown
+): metadata is { count: string; active: boolean } {
+  return (
+    isPlainObject(metadata) &&
+    typeof metadata.count === "string" &&
+    typeof metadata.active === "boolean"
+  );
+}
 
 export function InitiativeTracker() {
   const [initiativeItems, setInitiativeItems] = useState<InitiativeItem[]>([]);
@@ -27,7 +39,7 @@ export function InitiativeTracker() {
       for (const item of items) {
         if (isImage(item)) {
           const metadata = item.metadata[getPluginId("metadata")];
-          if (metadata !== undefined) {
+          if (isMetadata(metadata)) {
             initiativeItems.push({
               id: item.id,
               count: metadata.count,
@@ -57,6 +69,7 @@ export function InitiativeTracker() {
               { key: "layer", value: "CHARACTER" },
               { key: ["metadata", getPluginId("metadata")], value: undefined },
             ],
+            permissions: ["UPDATE"],
           },
         },
         {
@@ -68,6 +81,7 @@ export function InitiativeTracker() {
               { key: "type", value: "IMAGE" },
               { key: "layer", value: "CHARACTER" },
             ],
+            permissions: ["UPDATE"],
           },
         },
       ],
@@ -119,8 +133,9 @@ export function InitiativeTracker() {
       (items) => {
         for (let i = 0; i < items.length; i++) {
           let item = items[i];
-          if (item.metadata[getPluginId("metadata")]) {
-            item.metadata[getPluginId("metadata")].active = i === nextIndex;
+          const metadata = item.metadata[getPluginId("metadata")];
+          if (isMetadata(metadata)) {
+            metadata.active = i === nextIndex;
           }
         }
       }
@@ -144,8 +159,9 @@ export function InitiativeTracker() {
     // Sync changes over the network
     OBR.scene.items.updateItems([id], (items) => {
       for (let item of items) {
-        if (item.metadata[getPluginId("metadata")]) {
-          item.metadata[getPluginId("metadata")].count = newCount;
+        const metadata = item.metadata[getPluginId("metadata")];
+        if (isMetadata(metadata)) {
+          metadata.count = newCount;
         }
       }
     });
