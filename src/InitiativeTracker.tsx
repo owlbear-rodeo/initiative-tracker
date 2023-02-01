@@ -69,6 +69,7 @@ export function InitiativeTracker() {
               { key: "layer", value: "CHARACTER" },
               { key: ["metadata", getPluginId("metadata")], value: undefined },
             ],
+            permissions: ["UPDATE"],
           },
         },
         {
@@ -80,6 +81,7 @@ export function InitiativeTracker() {
               { key: "type", value: "IMAGE" },
               { key: "layer", value: "CHARACTER" },
             ],
+            permissions: ["UPDATE"],
           },
         },
       ],
