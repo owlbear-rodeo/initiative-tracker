@@ -52,7 +52,7 @@ export function InitiativeTracker() {
       setInitiativeItems(initiativeItems);
     };
 
-    OBR.scene.items.getItems(() => true).then(handleItemsChange);
+    OBR.scene.items.getItems().then(handleItemsChange);
     return OBR.scene.items.onChange(handleItemsChange);
   }, []);
 
@@ -63,7 +63,6 @@ export function InitiativeTracker() {
           icon: addIcon,
           label: "Add to Initiative",
           filter: {
-            min: 1,
             every: [
               { key: "type", value: "IMAGE" },
               { key: "layer", value: "CHARACTER" },
@@ -76,7 +75,6 @@ export function InitiativeTracker() {
           icon: removeIcon,
           label: "Remove from Initiative",
           filter: {
-            min: 1,
             every: [
               { key: "type", value: "IMAGE" },
               { key: "layer", value: "CHARACTER" },
@@ -87,27 +85,24 @@ export function InitiativeTracker() {
       ],
       id: getPluginId("menu/toggle"),
       onClick(context) {
-        OBR.scene.items.updateItems(
-          context.items.map((i) => i.id),
-          (items) => {
-            // Check whether to add the items to initiative or remove them
-            const addToInitiative = items.every(
-              (item) => item.metadata[getPluginId("metadata")] === undefined
-            );
-            let count = 0;
-            for (let item of items) {
-              if (addToInitiative) {
-                item.metadata[getPluginId("metadata")] = {
-                  count: `${count}`,
-                  active: false,
-                };
-                count += 1;
-              } else {
-                delete item.metadata[getPluginId("metadata")];
-              }
+        OBR.scene.items.updateItems(context.items, (items) => {
+          // Check whether to add the items to initiative or remove them
+          const addToInitiative = items.every(
+            (item) => item.metadata[getPluginId("metadata")] === undefined
+          );
+          let count = 0;
+          for (let item of items) {
+            if (addToInitiative) {
+              item.metadata[getPluginId("metadata")] = {
+                count: `${count}`,
+                active: false,
+              };
+              count += 1;
+            } else {
+              delete item.metadata[getPluginId("metadata")];
             }
           }
-        );
+        });
       },
     });
   }, []);
