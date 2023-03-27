@@ -6,7 +6,10 @@ import { InitiativeTracker } from "./InitiativeTracker";
 
 export function App() {
   const [sceneReady, setSceneReady] = useState(false);
-  useEffect(() => OBR.scene.onReadyChange(setSceneReady), []);
+  useEffect(() => {
+    OBR.scene.isReady().then(setSceneReady);
+    return OBR.scene.onReadyChange(setSceneReady);
+  }, []);
 
   if (sceneReady) {
     return <InitiativeTracker />;
