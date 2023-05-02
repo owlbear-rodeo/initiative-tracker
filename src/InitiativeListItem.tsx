@@ -38,7 +38,7 @@ export function InitiativeListItem({
         pr: "64px",
       }}
     >
-      <ListItemText primary={initiative.name} />
+      <ListItemText sx={{ color: "text.primary" }} primary={initiative.name} />
     </ListItem>
   );
 }

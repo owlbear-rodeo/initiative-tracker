@@ -17,14 +17,24 @@ export function InitiativeHeader({
         title="Initiative"
         action={action}
         titleTypographyProps={{
-          sx: { fontSize: "1.125rem", fontWeight: "bold", lineHeight: "32px" },
+          sx: {
+            fontSize: "1.125rem",
+            fontWeight: "bold",
+            lineHeight: "32px",
+            color: "text.primary",
+          },
         }}
       />
       <Divider variant="middle" />
       {subtitle && (
         <Typography
           variant="caption"
-          sx={{ px: 2, py: 1, opacity: 0.5, display: "inline-block" }}
+          sx={{
+            px: 2,
+            py: 1,
+            display: "inline-block",
+            color: "text.secondary",
+          }}
         >
           {subtitle}
         </Typography>
