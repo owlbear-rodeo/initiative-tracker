@@ -34,10 +34,11 @@ export function InitiativeTracker() {
   const [initiativeItems, setInitiativeItems] = useState<InitiativeItem[]>([]);
 
   useEffect(() => {
-    const handleItemsChange = (items: Item[]) => {
+    const handleItemsChange = async (items: Item[]) => {
       const initiativeItems: InitiativeItem[] = [];
+      const isGm = (await OBR.player.getRole()) === 'GM';
       for (const item of items) {
-        if (isImage(item)) {
+        if (isImage(item) && (item.visible || isGm)) {
           const metadata = item.metadata[getPluginId("metadata")];
           if (isMetadata(metadata)) {
             initiativeItems.push({
