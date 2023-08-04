@@ -3,4 +3,5 @@ export interface InitiativeItem {
   name: string;
   id: string;
   active: boolean;
+  visible: boolean;
 }

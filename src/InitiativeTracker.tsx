@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 
 import SkipNextRounded from "@mui/icons-material/SkipNextRounded";
 
-import OBR, { isImage, Item } from "@owlbear-rodeo/sdk";
+import OBR, { isImage, Item, Player } from "@owlbear-rodeo/sdk";
 
 import { InitiativeItem } from "./InitiativeItem";
 
@@ -32,13 +32,21 @@ function isMetadata(
 
 export function InitiativeTracker() {
   const [initiativeItems, setInitiativeItems] = useState<InitiativeItem[]>([]);
+  const [role, setRole] = useState<"GM" | "PLAYER">("PLAYER");
+
+  useEffect(() => {
+    const handlePlayerChange = (player: Player) => {
+      setRole(player.role);
+    };
+    OBR.player.getRole().then(setRole);
+    return OBR.player.onChange(handlePlayerChange);
+  }, []);
 
   useEffect(() => {
     const handleItemsChange = async (items: Item[]) => {
       const initiativeItems: InitiativeItem[] = [];
-      const isGm = (await OBR.player.getRole()) === 'GM';
       for (const item of items) {
-        if (isImage(item) && (item.visible || isGm)) {
+        if (isImage(item)) {
           const metadata = item.metadata[getPluginId("metadata")];
           if (isMetadata(metadata)) {
             initiativeItems.push({
@@ -46,6 +54,7 @@ export function InitiativeTracker() {
               count: metadata.count,
               name: item.text.plainText || item.name,
               active: metadata.active,
+              visible: item.visible,
             });
           }
         }
@@ -219,6 +228,7 @@ export function InitiativeTracker() {
                 onCountChange={(newCount) => {
                   handleInitiativeCountChange(initiative.id, newCount);
                 }}
+                showHidden={role === "GM"}
               />
             ))}
         </List>
