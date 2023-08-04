@@ -65,8 +65,9 @@ export function InitiativeTracker() {
           label: "Add to Initiative",
           filter: {
             every: [
+              { key: "layer", value: "CHARACTER", coordinator: "||" },
+              { key: "layer", value: "MOUNT" },
               { key: "type", value: "IMAGE" },
-              { key: "layer", value: "CHARACTER" },
               { key: ["metadata", getPluginId("metadata")], value: undefined },
             ],
             permissions: ["UPDATE"],
@@ -77,8 +78,9 @@ export function InitiativeTracker() {
           label: "Remove from Initiative",
           filter: {
             every: [
+              { key: "layer", value: "CHARACTER", coordinator: "||" },
+              { key: "layer", value: "MOUNT" },
               { key: "type", value: "IMAGE" },
-              { key: "layer", value: "CHARACTER" },
             ],
             permissions: ["UPDATE"],
           },
